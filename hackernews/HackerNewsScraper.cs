@@ -76,7 +76,7 @@ namespace hackernews
                     uri = post.url,
                     points = post.score,
                     comments = post.descendants,
-                    rank = posts.Count() + 1
+                    rank = posts.Count() + 1 // rank is updated as we add to list
                 });
 
                 if (posts.Count() == n)
