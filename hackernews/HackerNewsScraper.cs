@@ -39,7 +39,15 @@ namespace hackernews
         /// <returns>JSON string with hacker news posts</returns>
         public async Task<string> GetPostsJson(int n)
         {
-            var ids = await GetTopPostsIdsAsync();
+            int[] ids;
+            try
+            {
+                ids = await GetTopPostsIdsAsync();
+            }
+            catch (Exception e)
+            {
+                return $"Exception when trying to get top posts: {e.Message}";
+            }
 
             if (ids == null || ids.Count() == 0)
                 return "Unable to find any posts.";
@@ -48,9 +56,17 @@ namespace hackernews
 
             foreach (var id in ids)
             {
-                var post = await GetPostById(id);
+                HackerNewsPostResponse post = null;
+                try
+                {
+                    post = await GetPostById(id);
+                }
+                catch (Exception ex)
+                {
+                    return $"Exception when trying to get post with id={id}: {ex.Message}";
+                }
 
-                if (PostIsInvalid(post))
+                if (post == null || PostIsInvalid(post))
                     continue;
 
                 posts.Add(new Post
@@ -77,7 +93,7 @@ namespace hackernews
         /// </summary>
         /// <param name="post"></param>
         /// <returns></returns>
-        private bool PostIsInvalid(HackerNewsPostResponse post)
+        public bool PostIsInvalid(HackerNewsPostResponse post)
         {
             if (string.IsNullOrEmpty(post.title) || post.title.Length > 256 ||
                 string.IsNullOrEmpty(post.by) || post.by.Length > 256 ||
@@ -92,7 +108,7 @@ namespace hackernews
         /// Calls the topstories endpoint and returns a parsed array of post ids.
         /// </summary>
         /// <returns></returns>
-        private async Task<int[]> GetTopPostsIdsAsync()
+        public async Task<int[]> GetTopPostsIdsAsync()
         {
             int[] ids;
 
@@ -105,7 +121,7 @@ namespace hackernews
             }
             catch (Exception)
             {
-                return null;
+                throw;
             }
 
             return ids;
@@ -116,7 +132,7 @@ namespace hackernews
         /// </summary>
         /// <param name="id">Id of post to fetch</param>
         /// <returns>Deserialized post response</returns>
-        private async Task<HackerNewsPostResponse> GetPostById(int id)
+        public async Task<HackerNewsPostResponse> GetPostById(int id)
         {
             HackerNewsPostResponse post;
 
@@ -128,7 +144,7 @@ namespace hackernews
             }
             catch (Exception)
             {
-                return null;
+                throw;
             }
 
             return post;
