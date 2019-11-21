@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace hackernews
@@ -13,10 +10,10 @@ namespace hackernews
 
     public class Http : IHttp
     {
+        private static readonly HttpClient client = new HttpClient();
+
         public async Task<string> GetAsync(string url)
         {
-            HttpClient client = new HttpClient();
-
             string result = string.Empty;
 
             using (var response = await client.GetAsync(url))

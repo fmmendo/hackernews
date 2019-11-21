@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Text;
 
 namespace hackernews
 {
@@ -15,6 +14,8 @@ namespace hackernews
         public string title { get; set; }
         public string type { get; set; }
         public string url { get; set; }
+
+        [JsonIgnore] public int rank { get; set; }
     }
 
     public class Post
