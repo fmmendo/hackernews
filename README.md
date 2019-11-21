@@ -1,6 +1,6 @@
 # hackernews
  
-# How to run
+## How to run
 
 ## Pre-requisites
 *hackernews* was built in .net core 2.1, therefore .net core will need to be install, version 2.1 or higher which can be [found here](https://dotnet.microsoft.com/download/dotnet-core/2.1)
