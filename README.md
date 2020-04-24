@@ -1,4 +1,4 @@
-# hackernews
+# hackernews-cli
 A command line utility that pulls the top posts.
  
 ## How to run
